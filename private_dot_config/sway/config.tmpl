@@ -22,13 +22,20 @@ set $menuWindows rofi -show window | xargs swaymsg exec --
 set $menuPower rofi -show power-menu -modi power-menu:rofi-power-menu | xargs swaymsg exec --
 set $menuClipboard rofi -show clipboard -modi clipboard:~/bin/cliphist-rofi-img -show-icons | xargs swaymsg exec --
 
-{{ if eq .chezmoi.hostname "pixelbook" }}
+{{ if eq .chezmoi.hostname "pixelbook" -}}
 set $internalScreen "Sharp Corporation LQ123P1JX32 Unknown"
-set $auxScreen "LG Electronics LG Ultra HD 0x0000D4DC"
 
 set $internalKeyboard "4012:2782:keyd_virtual_keyboard"
+{{- end }}
+{{ if eq .env "work" -}}
+set $internalScreen "Chimei Innolux Corporation 0x143F Unknown"
+set $P12GRAN304Screen "Dell Inc. DELL P2214H 29C293AA1DRL"
+
+set $internalKeyboard "1:1:AT_Translated_Set_2_keyboard"
+{{- end }}
+
+set $auxScreen "LG Electronics LG Ultra HD 0x0000D4DC"
 set $macKeyboard "1452:598:Apple_Wireless_Keyboard"
-{{ end }}
 
 ### Output configuration
 #
@@ -54,6 +61,23 @@ output $auxScreen {
 
 workspace 1 output $internalScreen
 workspace 10 output $auxScreen $internalScreen
+{{- end }}
+
+{{ if eq .env "work" -}}
+output $internalScreen {
+  mode 1920x1200@60.003Hz
+  pos 1920 0
+}
+
+output $auxScreen {
+  mode 1920x1080@60.000Hz
+  pos 3840 0
+}
+
+output $P12GRAN304Screen {
+  mode 1920x1080@60.000Hz
+  pos 0 0
+}
 {{- end }}
 
 ### Idle configuration
@@ -164,6 +188,15 @@ workspace 10 output $auxScreen $internalScreen
     bindsym $mod+Shift+8 move container to workspace number 8
     bindsym $mod+Shift+9 move container to workspace number 9
     bindsym $mod+Shift+0 move container to workspace number 10
+    # Move workspaces around outputs
+    bindsym $mod+Control+Shift+$right move workspace to output right
+    bindsym $mod+Control+Shift+$left move workspace to output left
+    bindsym $mod+Control+Shift+$down move workspace to output down
+    bindsym $mod+Control+Shift+$up move workspace to output up
+    bindsym $mod+Control+Shift+Right move workspace to output right
+    bindsym $mod+Control+Shift+Left move workspace to output left
+    bindsym $mod+Control+Shift+Down move workspace to output down
+    bindsym $mod+Control+Shift+Up move workspace to output up
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
 #
@@ -291,11 +324,6 @@ input $internalKeyboard {
   xkb_options grp:rctrl_toggle
 }
 
-input $macKeyboard {
-  xkb_layout es,us
-  xkb_options grp:rwin_toggle
-}
-
 input type:tablet_tool {
   map_to_output $internalScreen
 }
@@ -304,6 +332,22 @@ input type:touch {
   map_to_output $internalScreen
 }
 {{- end }}
+{{ if eq .env "work" -}}
+input type:keyboard {
+  xkb_layout es,us
+  xkb_options grp:alt_space_toggle
+}
+
+input $internalKeyboard {
+  xkb_layout es,us
+  xkb_options grp:alt_space_toggle
+}
+{{- end }}
+
+input $macKeyboard {
+  xkb_layout es,us
+  xkb_options grp:rwin_toggle
+}
 
 font pango:monospace 10
 
