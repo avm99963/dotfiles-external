@@ -34,6 +34,7 @@ set $internalKeyboard "4012:2782:keyd_virtual_keyboard"
 {{ if eq .env "work" -}}
 set $internalScreen "Chimei Innolux Corporation 0x143F Unknown"
 set $P12GRAN304Screen "Dell Inc. DELL P2214H 29C293AA1DRL"
+set $P12GRAN303Screen "Lenovo Group Limited L27i-30 UNB5WPCM"
 
 set $internalKeyboard "1:1:AT_Translated_Set_2_keyboard"
 {{- end }}
@@ -90,6 +91,18 @@ output $P12GRAN304Screen {
   mode 1920x1080@60.000Hz
   pos 0 0
 }
+
+output $P12GRAN303Screen {
+  mode 1920x1080@60.000Hz
+  pos 3840 0
+}
+
+workspace 1 output $internalScreen
+workspace 2 output $P12GRAN303Screen $auxScreen $internalScreen
+workspace 3 output $P12GRAN303Screen $auxScreen $internalScreen
+workspace 4 output $P12GRAN303Screen $auxScreen $internalScreen
+workspace 5 output $internalScreen
+workspace 9 output $P12GRAN303Screen $auxScreen $internalScreen
 {{- end }}
 
 ### Idle configuration
