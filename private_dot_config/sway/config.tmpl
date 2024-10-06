@@ -407,6 +407,9 @@ for_window {
   [title=".* is sharing your screen"] move window to scratchpad
   [app_id="chrome-pjibgclleladliembfgfagdaldikeohf-.*"] move window to workspace 10; workspace 10
   [app_id="chrome-aoocenepihlidnmnheodnngihilbadfo-.*"] move window to workspace 10; workspace 10
+  # This is intended to affect Chrome PiP windows, but I guess it shouldn't hurt
+  # to also apply this to other windows with the same title.
+  [title="Picture in picture"] floating enable, sticky enable
 }
 
 exec mako
