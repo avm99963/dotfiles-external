@@ -1,0 +1,35 @@
+@theme "squared-everforest.rasi"
+
+configuration {
+  modes: "drun,run,ssh,window";
+  show-icons: true;
+  terminal: "foot";
+  icon-theme: "hicolor";
+  drun-match-fields: "name,generic,categories,keywords";
+  drun-show-actions: false;
+  sidebar-mode: true;
+  window-thumbnail: true;
+  timeout {
+      action: "kb-cancel";
+      delay:  0;
+  }
+  filebrowser {
+      directories-first: true;
+      sorting-method:    "name";
+  }
+  icon {
+      theme: "hicolor";
+  }
+  drun {
+    display-name: "󰀻";
+  }
+  run {
+    display-name: "";
+  }
+  ssh {
+    display-name: "󰣀";
+  }
+  window {
+    display-name: "";
+  }
+}

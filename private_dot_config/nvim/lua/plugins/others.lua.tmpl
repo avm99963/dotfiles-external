@@ -1,0 +1,72 @@
+return {
+  {
+    -- Show result count (like  [2/93] )
+    "google/vim-searchindex",
+    dependencies = {
+      "google/vim-maktaba",
+      "google/vim-glaive",
+    },
+  },
+
+  -- Extra functionality
+  --{
+  --  "SirVer/ultisnips",
+  --  config = function()
+  --    vim.g.UltiSnipsExpandTrigger       = '<Tab>'    -- use Tab to expand snippets
+  --    vim.g.UltiSnipsJumpForwardTrigger  = '<Tab>'    -- use Tab to move forward through tabstops
+  --    vim.g.UltiSnipsJumpBackwardTrigger = '<S-Tab>'  -- use Shift-Tab to move backward through tabstops
+  --  end,
+  --}
+  --"honza/vim-snippets",
+  --{
+  --  "github/copilot.vim",
+  --  config = function()
+      -- @source https://stackoverflow.com/questions/75926959/activate-copilot-for-only-one-directory
+      -- Force disable everywhere
+      --vim.api.nvim_create_autocmd({ 'BufEnter' }, {
+      --    pattern = '*',
+      --    command = "Copilot disable"
+      --})
+
+      -- Force enable in allowlisted directories
+      --vim.api.nvim_create_autocmd({ 'BufEnter' }, {
+      --    pattern = vim.fn.expand('~') .. '/gitrepos/infinitegforums/*',
+      --    command = "Copilot enable"
+      --})
+      --vim.api.nvim_create_autocmd({ 'BufEnter' }, {
+      --    pattern = {
+      --        vim.fn.expand('~') .. '/gitrepos/translateselectedtext/*',
+      --        vim.fn.expand('~') .. '/gitrepos/screen-capture/*',
+      --    },
+      --    command = "Copilot enable"
+      --})
+  --  end,
+  --},
+  {
+    "ray-x/lsp_signature.nvim",
+    config = function()
+      require('lsp_signature').setup{
+        bind = true,
+        handler_opts = {
+          border = 'rounded',
+        },
+      }
+    end,
+  },
+  "folke/trouble.nvim",
+  {
+    "lervag/vimtex",
+    config = function()
+{{- if and .chezmoi.os (eq .chezmoi.os "linux") }}
+      vim.g.vimtex_view_method = 'zathura'
+{{- else}}
+      vim.g.vimtex_view_method = 'skim'
+{{- end}}
+      -- Error given by apuntsgenerics
+      vim.g.vimtex_quickfix_ignore_filters = {
+        'Package hyperref Warning: Token not allowed in a PDF string (Unicode): removing',
+      }
+    end,
+  },
+  "will133/vim-dirdiff",
+}

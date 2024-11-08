@@ -1,0 +1,77 @@
+[user]
+name = {{ .git.name | quote }}
+email = {{ .git.email | quote }}
+
+{{- if eq .env "work"}}
+[git]
+push-bookmark-prefix="feature/adria-vilanova-push-"
+{{- end}}
+
+[ui]
+default-command = "log"
+diff-editor = ":builtin"
+#diff-editor = "vimdirdiff"
+#diff-editor = "meld-3"
+
+[aliases]
+signoff = ["--config-toml=ui.editor='{{ .chezmoi.config.destDir }}/.jj-signoff.bash'", "commit"]
+so = ["--config-toml=ui.editor='{{ .chezmoi.config.destDir }}/.jj-signoff.bash'", "describe"]
+l = ["log"]
+ll = ["log", "--template", "full"]
+lll = ["log", "--template", "fuller"]
+opt = ["op", "log", "--template", "op_log_with_full_time"]
+
+[template-aliases]
+# From https://sourcegraph.com/github.com/martinvonz/jj@0a39cfdbe25977132bcbb669d81124542821cfdc/-/blob/cli/src/config/templates.toml
+full = '''
+if(root,
+  format_root_commit(self),
+  label(if(current_working_copy, "working_copy"),
+    concat(
+      separate(" ",
+        format_short_change_id_with_hidden_and_divergent_info(self),
+        format_short_signature(author),
+        format_timestamp(committer.timestamp()),
+        bookmarks,
+        tags,
+        working_copies,
+        git_head,
+        format_short_commit_id(commit_id),
+        if(conflict, label("conflict", "conflict")),
+      ) ++ "\n\n",
+      indent("    ",
+        separate(" ",
+          if(empty, label("empty", "(empty)")),
+          if(description, description, description_placeholder ++ "\n"),
+        )
+      )++ "\n",
+    ),
+  )
+)
+'''
+
+fuller = "builtin_log_detailed"
+
+op_log_with_full_time = '''
+label(if(current_operation, "current_operation"),
+  coalesce(
+    if(root, format_root_operation(self)),
+    format_operation_with_full_time(self),
+  )
+)
+'''
+
+'format_operation_with_full_time(op)' = '''
+  concat(
+    separate(" ", op.id().short(), op.user(), format_full_time_range(op.time())), "\n",
+    op.description().first_line(), "\n",
+    if(op.tags(), op.tags() ++ "\n"),
+  )
+'''
+
+'format_full_time_range(time_range)' = '''
+  format_timestamp(time_range.start()) ++ label("time", ", lasted ") ++ time_range.duration()'''
+
+[revset-aliases]
+"non-pushed" = "remote_bookmarks().. & mine()"
+"non-uploaded" = "non-pushed"

@@ -1,0 +1,10 @@
+#!/bin/bash
+# Adapted a little bit for my setup.
+# @source https://github.com/martinvonz/jj/wiki/Vim/e9c31b7b424f2ce69bfd549e18116a57480c48ca
+
+# Shell-escape each path:
+DIR1=$(printf '%q' "$1"); shift
+DIR2=$(printf '%q' "$1"); shift
+
+# The colorscheme is only important on Vim versions older than 9.0
+nvim "$@" -c "DirDiff $DIR1 $DIR2"

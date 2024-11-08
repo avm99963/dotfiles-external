@@ -1,0 +1,57 @@
+set -g mouse on
+
+unbind C-b
+set-option -g prefix C-a
+bind-key C-a send-prefix
+
+bind c new-window -c "#{pane_current_path}"
+bind v split-window -h -c "#{pane_current_path}"
+bind h split-window -v -c "#{pane_current_path}"
+unbind '"'
+unbind %
+
+bind r source-file ~/.tmux.conf
+
+bind -n M-Left select-pane -L
+bind -n M-Right select-pane -R
+bind -n M-Up select-pane -U
+bind -n M-Down select-pane -D
+
+set -sg escape-time 10
+
+{{if and .chezmoi.osRelease .chezmoi.osRelease.id (eq .chezmoi.osRelease.id "ubuntu") -}}
+set-option -s set-clipboard off
+bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "xclip -selection clipboard -i"
+{{- end}}
+
+set -g @plugin "tmux-plugins/tpm"
+
+#set -g @plugin 'christoomey/vim-tmux-navigator'
+set -g @plugin 'dracula/tmux'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+# This should be the latest plugin (more info: https://github.com/tmux-plugins/tmux-continuum/blob/0698e8f4b17d6454c71bf5212895ec055c578da0/README.md#known-issues)
+set -g @plugin 'tmux-plugins/tmux-continuum'
+
+set -g @resurrect-capture-pane-contents 'on'
+set -g @continuum-restore 'on'
+
+set -g @dracula-show-fahrenheit false
+set -g @dracula-show-powerline true
+{{if or (and .chezmoi.os (eq .chezmoi.os "darwin")) (and .chezmoi.osRelease .chezmoi.osRelease.id (eq .chezmoi.osRelease.id "ubuntu" "debian")) -}}
+set -g @dracula-plugins "cpu-usage ram-usage weather"
+{{- else if and .chezmoi.os (eq .chezmoi.os "android") -}}
+set -g @dracula-plugins "ram-usage"
+{{- else -}}
+set -g @dracula-plugins "ram-usage weather"
+{{- end }}
+set -g @dracula-fixed-location "Barcelona"
+set -g @dracula-show-flags true
+set -g @dracula-show-left-icon session
+set -g status-position bottom
+
+# Automatic tpm installation
+if "test ! -d ~/.tmux/plugins/tpm" \
+   "run 'git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm && ~/.tmux/plugins/tpm/bin/install_plugins'"
+
+# NOTE: Keep the following line at the end of the file
+run '~/.tmux/plugins/tpm/tpm'

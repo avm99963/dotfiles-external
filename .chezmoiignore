@@ -1,0 +1,23 @@
+LICENSE
+LICENSE.public
+README.md
+README.public.md
+.copybara
+.gitreview
+
+{{ if ne .chezmoi.os "darwin" }}
+.gitignore_global
+Library
+{{ end }}
+
+{{ if ne .chezmoi.os "linux" }}
+.config/darkman
+.config/foot
+.config/i3blocks
+.config/jj
+.config/rofi
+.config/sway
+.config/xdg-desktop-portal
+.local/share
+bin/switch-keyboard
+{{ end }}

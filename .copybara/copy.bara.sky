@@ -1,0 +1,101 @@
+load("test_repos_config", "test_origin_url", "test_destination_url")
+
+def export_workflow(name, description, mode, authoring_value, is_test):
+  if not is_test:
+    origin_url = "https://gerrit.avm99963.com/a/private/dotfiles"
+    destination_url = "https://gerrit.avm99963.com/a/dotfiles-external"
+  else:
+    origin_url = test_origin_url
+    destination_url = test_destination_url
+
+  core.workflow(
+    name = name,
+    description = description,
+    origin = git.origin(
+      url = origin_url,
+      ref = "HEAD",
+      submodules = "NO",
+    ),
+    destination = git.destination(
+      url = destination_url,
+      push = "main",
+    ),
+    mode = mode,
+
+    origin_files = glob(
+        ["**"],
+        exclude = [
+          # Internal README
+          "README.md",
+
+          # Internal (dummy) license
+          "LICENSE",
+
+          # SSH configuration (it only includes the configuration for some
+          # hosts I connect to, which I don't want to be public).
+          "private_dot_ssh/**",
+
+          # .gitreview file only used for the private/dotfiles repo for the
+          # `git review` tool (https://docs.opendev.org/opendev/git-review/).
+          ".gitreview",
+        ],
+    ),
+
+    authoring = authoring_value,
+
+    transformations = [
+      core.rename('README.public.md', 'README.md'),
+      core.rename('LICENSE.public', 'LICENSE'),
+      core.replace(
+        before="private/dotfiles",
+        after="dotfiles-external",
+        paths = glob(
+          ["**"],
+          exclude = [".copybara/**"],
+        ),
+      ),
+      core.replace(
+        before = "${internalCode}",
+        after = "",
+        multiline = True,
+        regex_groups = {
+        },
+      ),
+      metadata.remove_label('Change-Id'),
+    ],
+  )
+
+export_workflow(
+  name = "firstExport",
+  description = "Moves code from the private repo (the SoT) to the public one. NOTE: This must only be used for the first migration.",
+  mode = "SQUASH",
+  authoring_value = authoring.overwrite("Copybara bot <copybara-bot@avm99963.com>"),
+  is_test = False,
+)
+
+export_workflow(
+  name = "exportCommits",
+  description = "Moves code from the private repo (the SoT) to the public one.",
+  mode = "ITERATIVE",
+  authoring_value = authoring.pass_thru("Copybara bot <copybara-bot@avm99963.com>"),
+  is_test = False,
+)
+
+# Local tests workflows
+export_workflow(
+  name = "firstExportTest",
+  description = "Test locally the first migration from the private repo to the public one. See README.md for more details.",
+  mode = "SQUASH",
+  authoring_value = authoring.overwrite("Copybara bot <copybara-bot@avm99963.com>"),
+  is_test = True,
+)
+
+export_workflow(
+  name = "exportCommitsTest",
+  description = "Test locally the migration from the private repo to the public one. See README.md for more details.",
+  mode = "ITERATIVE",
+  authoring_value = authoring.pass_thru("Copybara bot <copybara-bot@avm99963.com>"),
+  is_test = True,
+)
+
+# vim: set ft=bzl:

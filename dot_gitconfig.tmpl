@@ -1,0 +1,30 @@
+[user]
+name = {{ .git.name | quote }}
+email = {{ .git.email | quote }}
+{{if and (index .git "signingKey") (ne .git.signingKey "") -}}
+signingkey = {{ .git.signingKey | quote }}
+{{- end}}
+
+{{if eq .chezmoi.os "darwin" -}}
+[credential]
+helper = osxkeychain
+
+[core]
+precomposeUnicode = true
+excludesfile = {{ .chezmoi.config.destDir }}/.gitignore_global
+{{- end -}}
+
+[http]
+cookiefile = {{ .chezmoi.config.destDir }}/.gitcookies
+
+[hub]
+protocol = https
+
+[pull]
+rebase = true
+
+[init]
+defaultBranch = main
+
+[alias]
+r = review -R

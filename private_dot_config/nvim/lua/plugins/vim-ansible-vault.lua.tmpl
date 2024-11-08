@@ -1,0 +1,10 @@
+return {
+{{- if and (index . "ansibleVault") (index .ansibleVault "passwordFile") (ne .ansibleVault.passwordFile "") -}}
+  {
+    "arouene/vim-ansible-vault",
+    config = function()
+      vim.g.ansible_vault_password_file = {{ .ansibleVault.passwordFile | quote }}
+    end
+  }
+{{- end -}}
+}

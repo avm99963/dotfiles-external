@@ -1,0 +1,10 @@
+#!/bin/bash
+export KEYBOARD_MAC={{ .switchKeyboard.mac | quote }}
+export CONNECTED=$(bluetoothctl devices Connected | grep "$KEYBOARD_MAC")
+if [[ "$CONNECTED" == '' ]]; then
+  bluetoothctl unblock "$KEYBOARD_MAC"
+  bluetoothctl connect "$KEYBOARD_MAC"
+else
+  bluetoothctl disconnect "$KEYBOARD_MAC"
+  bluetoothctl block "$KEYBOARD_MAC"
+fi
