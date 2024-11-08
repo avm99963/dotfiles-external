@@ -1,0 +1,10 @@
+- name: "Create test_repos_config.sky"
+  ansible.builtin.copy:
+    src: "{{ zuul.project.src_dir }}/.copybara/test_repos_config.bara.sky.template"
+    dest: "{{ zuul.project.src_dir }}/.copybara/test_repos_config.bara.sky"
+    remote_src: true
+    force: true
+- name: "Validate Copybara conf file"
+  ansible.builtin.shell:
+    cmd: "copybara validate copy.bara.sky"
+    chdir: "{{ zuul.project.src_dir }}/.copybara"

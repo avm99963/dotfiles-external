@@ -1,0 +1,23 @@
+# Zuul CI configuration file
+# Read more about Zuul at https://zuul-ci.org/docs/zuul/
+
+- job:
+    name: dotfiles-sync-to-external-repo
+    parent: copybara-base
+    pre-run: playbooks/sync-to-external-repo/pre.yaml
+    run: playbooks/sync-to-external-repo/run.yaml
+
+- job:
+    name: dotfiles-test-sync-to-external-repo
+    parent: copybara-test-base
+    run: playbooks/sync-to-external-repo/test.yaml
+    files:
+      - ".copybara/*"
+
+- project:
+    check:
+      jobs:
+        - dotfiles-test-sync-to-external-repo
+    post:
+      jobs:
+        - dotfiles-sync-to-external-repo

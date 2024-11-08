@@ -1,0 +1,9 @@
+- name: "Run Copybara migration"
+  ansible.builtin.shell:
+    cmd: "sh export-commits.sh"
+    chdir: "{{ zuul.project.src_dir }}/.copybara"
+  register: result
+  # Exit status 4 means NO_OP:
+  # https://github.com/google/copybara/blob/55c4904442bcf905fe03c2297488b90428b472a7/java/com/google/copybara/util/ExitCode.java#L42
+  failed_when: result.rc not in [0, 4]
+  retries: 3

@@ -1,0 +1,2 @@
+test_origin_url = "file:///path/to/private/dotfiles"
+test_destination_url = "file:///path/to/dotfiles-external"

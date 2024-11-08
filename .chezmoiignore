@@ -1,9 +1,12 @@
 LICENSE
 LICENSE.public
+playbooks
 README.md
 README.public.md
+roles
 .copybara
 .gitreview
+.zuul.yaml
 
 {{ if ne .chezmoi.os "darwin" }}
 .gitignore_global
