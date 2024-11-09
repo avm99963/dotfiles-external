@@ -21,6 +21,7 @@ Library
 .config/rofi
 .config/sway
 .config/xdg-desktop-portal
+.config/xdg-desktop-portal-wlr
 .local/share
 bin/switch-keyboard
 {{ end }}
