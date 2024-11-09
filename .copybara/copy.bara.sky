@@ -8,6 +8,11 @@ def export_workflow(name, description, mode, authoring_value, is_test):
     origin_url = test_origin_url
     destination_url = test_destination_url
 
+  allPathsExceptCopybara = glob(
+    ["**"],
+    exclude = [".copybara/**"],
+  )
+
   core.workflow(
     name = name,
     description = description,
@@ -49,17 +54,16 @@ def export_workflow(name, description, mode, authoring_value, is_test):
       core.replace(
         before="private/dotfiles",
         after="dotfiles-external",
-        paths = glob(
-          ["**"],
-          exclude = [".copybara/**"],
-        ),
+        paths = allPathsExceptCopybara,
       ),
       core.replace(
         before = "${internalCode}",
         after = "",
         multiline = True,
         regex_groups = {
+          "internalCode": "(?m)^.*BEGIN-INTERNAL[\\w\\W]*?END-INTERNAL.*$\\n",
         },
+        paths = allPathsExceptCopybara,
       ),
       metadata.remove_label('Change-Id'),
     ],
