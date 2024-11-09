@@ -4,6 +4,7 @@
     dest: "{{ zuul.project.src_dir }}/.copybara/test_repos_config.bara.sky"
     remote_src: true
     force: true
+
 - name: "Validate Copybara conf file"
   ansible.builtin.shell:
     cmd: "copybara validate copy.bara.sky"

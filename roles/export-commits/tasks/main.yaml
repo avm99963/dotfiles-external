@@ -1,3 +1,11 @@
+# This file is only used for tests, but Copybara won't work unless it exists.
+- name: "Create dummy test_repos_config.sky"
+  ansible.builtin.copy:
+    src: "{{ zuul.project.src_dir }}/.copybara/test_repos_config.bara.sky.template"
+    dest: "{{ zuul.project.src_dir }}/.copybara/test_repos_config.bara.sky"
+    remote_src: true
+    force: true
+
 - name: "Run Copybara migration"
   ansible.builtin.shell:
     cmd: "sh export-commits.sh"
