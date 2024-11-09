@@ -56,14 +56,21 @@ def export_workflow(name, description, mode, authoring_value, is_test):
         after="dotfiles-external",
         paths = allPathsExceptCopybara,
       ),
-      core.replace(
-        before = "${internalCode}",
-        after = "",
-        multiline = True,
-        regex_groups = {
-          "internalCode": "(?m)^.*BEGIN-INTERNAL[\\w\\W]*?END-INTERNAL.*$\\n",
-        },
-        paths = allPathsExceptCopybara,
+      core.transform(
+        transformations = [
+          core.replace(
+            before = "${internalCode}",
+            after = "",
+            multiline = True,
+            regex_groups = {
+              "internalCode": "(?m)^.*BEGIN-INTERNAL[\\w\\W]*?END-INTERNAL.*$\\n",
+            },
+            paths = allPathsExceptCopybara,
+          ),
+        ],
+        reversal = [],
+        # TODO: Remove this once some code uses this transformation.
+        noop_behavior = 'IGNORE_NOOP',
       ),
       metadata.remove_label('Change-Id'),
     ],
