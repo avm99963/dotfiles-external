@@ -385,8 +385,9 @@ for_window {
   # See https://wiki.archlinux.org/index.php?title=Flameshot&oldid=813985#Flameshot_does_not_work_on_all_monitors_of_a_multi-monitor_setup_in_Sway
 {{ if eq .chezmoi.hostname "pixelbook" -}}
   [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
-{{- else -}}
-  [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
+{{- end }}
+{{ if eq .env "work" -}}
+  [app_id="flameshot"] border pixel 0, floating enable, fullscreen enable global
 {{- end }}
 
   [title=".* is sharing your screen"] move window to scratchpad
