@@ -22,6 +22,10 @@ set $menuWindows rofi -show window | xargs swaymsg exec --
 set $menuPower rofi -show power-menu -modi power-menu:rofi-power-menu | xargs swaymsg exec --
 set $menuClipboard rofi -show clipboard -modi clipboard:~/bin/cliphist-rofi-img -show-icons | xargs swaymsg exec --
 
+# See https://github.com/flameshot-org/flameshot/blob/14a136777cd82ab70f42c13b4bc9418c756d91d2/docs/Sway%20and%20wlroots%20support.md
+set $flameshotCmd SDL_VIDEODRIVER=wayland _JAVA_AWT_WM_NONREPARENTING=1 QT_QPA_PLATFORM=wayland XDG_CURRENT_DESKTOP=sway XDG_SESSION_DESKTOP=sway flameshot
+set $flameshotGuiCmd $flameshotCmd gui
+
 {{ if eq .chezmoi.hostname "pixelbook" -}}
 set $internalScreen "Sharp Corporation LQ123P1JX32 Unknown"
 
@@ -275,6 +279,11 @@ output $P12GRAN304Screen {
     bindsym $mod+Shift+X exec makoctl restore
     bindsym $mod+Z exec makoctl dismiss -a
 
+# Print screen
+    bindsym Print exec $flameshotGuiCmd
+    bindsym XF86LaunchA exec $flameshotGuiCmd
+    bindsym $mod+P exec $flameshotGuiCmd
+
 #
 # Resizing containers:
 #
@@ -391,8 +400,7 @@ exec mako
 # See https://github.com/emersion/xdg-desktop-portal-wlr/blob/d9ada849aeca6137915de2df69beaef4e272cc1d/README.md#running
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
-# See https://github.com/flameshot-org/flameshot/blob/14a136777cd82ab70f42c13b4bc9418c756d91d2/docs/Sway%20and%20wlroots%20support.md
-exec SDL_VIDEODRIVER=wayland _JAVA_AWT_WM_NONREPARENTING=1 QT_QPA_PLATFORM=wayland XDG_CURRENT_DESKTOP=sway XDG_SESSION_DESKTOP=sway flameshot
+exec $flameshotCmd
 
 exec wl-paste --watch cliphist store -max-items 10
 
