@@ -394,7 +394,7 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 # See https://github.com/flameshot-org/flameshot/blob/14a136777cd82ab70f42c13b4bc9418c756d91d2/docs/Sway%20and%20wlroots%20support.md
 exec SDL_VIDEODRIVER=wayland _JAVA_AWT_WM_NONREPARENTING=1 QT_QPA_PLATFORM=wayland XDG_CURRENT_DESKTOP=sway XDG_SESSION_DESKTOP=sway flameshot
 
-exec wl-paste --watch cliphist store
+exec wl-paste --watch cliphist store -max-items 10
 
 # See https://wiki.archlinux.org/title/Sway#Idle
 exec swayidle -w \
