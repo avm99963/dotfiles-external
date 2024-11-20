@@ -113,7 +113,11 @@ return {
       -- @source: https://github.com/zbirenbaum/copilot-cmp?tab=readme-ov-file#highlighting--icon
       -- Set up nvim-cmp.
       local cmp = require'cmp'
+      local compare = cmp.config.compare
       local lspkind = require'lspkind'
+{{if eq .env "work" -}}
+      local copilot_cmp_comparators = require'copilot_cmp.comparators'
+{{- end}}
 
       cmp.setup({
       --  snippet = {
@@ -135,6 +139,9 @@ return {
         sources = cmp.config.sources(
           {
             { name = 'nvim_lsp' },
+{{if eq .env "work" -}}
+            { name = 'copilot' }
+{{- end}}
         --    { name = 'ultisnips' },
           }, {
             {
@@ -149,11 +156,30 @@ return {
                 end
               },
             },
-          },
-          {
-            { name = "copilot", group_index = 2 }
           }
         ),
+        sorting = {
+          -- Default value from https://github.com/hrsh7th/nvim-cmp/blob/5a11682453ac6b13dbf32cd403da4ee9c07ef1c3/lua/cmp/config/default.lua#L67
+          priority_weight = 2,
+          comprators = {
+{{if eq .env "work" -}}
+            -- From https://github.com/zbirenbaum/copilot-cmp/blob/15fc12af3d0109fa76b60b5cffa1373697e261d1/README.md#comparators
+            copilot_cmp_comparators.prioritize,
+{{- end }}
+
+            -- Defaults comparators from https://github.com/hrsh7th/nvim-cmp/blob/5a11682453ac6b13dbf32cd403da4ee9c07ef1c3/lua/cmp/config/default.lua#L68-L78
+            compare.offset,
+            compare.exact,
+            -- compare.scopes,
+            compare.score,
+            compare.recently_used,
+            compare.locality,
+            compare.kind,
+            compare.sort_text,
+            compare.length,
+            compare.order,
+          },
+        },
         formatting = {
           format = lspkind.cmp_format({
             mode = 'symbol',
