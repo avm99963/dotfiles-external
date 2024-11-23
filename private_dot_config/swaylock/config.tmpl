@@ -1,0 +1,4 @@
+show-failed-attempts
+{{ if and (index . "swayLock") (index .swayLock "bg") (ne .swayLock.bg "") -}}
+image={{ .swayLock.bg | quote }}
+{{- end }}

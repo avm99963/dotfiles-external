@@ -7,7 +7,9 @@
 
 {{- $ansibleVaultPasswordFile := promptStringOnce . "ansibleVault.passwordFile" "Ansible Vault password file path (leave empty if not available)" -}}
 
-{{- $switchKeyboardMac := promptStringOnce . "keyboardMac" "MAC address of the keyboard (for switch-keyboard, only used in Linux)" -}}
+{{- $swayLockBg := promptStringOnce . "swayLock.bg" "Background image for swaylock" -}}
+
+{{- $switchKeyboardMac := promptStringOnce . "switchKeyboard.mac" "MAC address of the keyboard (for switch-keyboard, only used in Linux)" -}}
 
 [data]
   env = {{ $env | quote }}
@@ -19,6 +21,9 @@
 
 [data.ansibleVault]
   passwordFile = {{ $ansibleVaultPasswordFile | quote }}
+
+[data.swayLock]
+  bg = {{ $swayLockBg | quote }}
 
 [data.switchKeyboard]
   mac = {{ $switchKeyboardMac | quote }}
