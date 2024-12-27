@@ -336,6 +336,11 @@ input type:pointer {
   natural_scroll enabled
 }
 
+input type:keyboard {
+  xkb_layout es,us
+  xkb_options grp:alt_space_toggle
+}
+
 {{ if eq .chezmoi.hostname "pixelbook" -}}
 input $internalKeyboard {
   xkb_layout us,es
@@ -351,11 +356,6 @@ input type:touch {
 }
 {{- end }}
 {{ if eq .env "work" -}}
-input type:keyboard {
-  xkb_layout es,us
-  xkb_options grp:alt_space_toggle
-}
-
 input $internalKeyboard {
   xkb_layout es,us
   xkb_options grp:alt_space_toggle
