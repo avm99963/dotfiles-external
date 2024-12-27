@@ -20,6 +20,7 @@ Library
 .config/jj
 .config/rofi
 .config/sway
+.config/swaylock
 .config/xdg-desktop-portal
 .config/xdg-desktop-portal-wlr
 .local/share
