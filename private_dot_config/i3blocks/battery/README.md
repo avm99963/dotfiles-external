@@ -2,13 +2,17 @@
 
 Show battery info.
 
-![](battery.png)
+## Example
 
-# Dependencies
+```
+⚡90% (4.0 hours)
+```
 
-* `acpi`
+## Dependencies
 
-# Config
+* `upower`
+
+## Config
 
 ```
 [battery]

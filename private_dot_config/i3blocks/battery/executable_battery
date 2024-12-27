@@ -3,13 +3,20 @@
 # Copyright 2014 Pierre Mavro <deimos@deimos.fr>
 # Copyright 2014 Vivien Didelot <vivien@didelot.org>
 #
-# Slightly modified by Adrià Vilanova
+# Original version:
+# https://github.com/vivien/i3blocks-contrib/blob/9d66d81da8d521941a349da26457f4965fd6fcbd/battery/battery
+# Modified by Adrià Vilanova, mainly to use upower
+# instead of acpi and adapt it to my style.
+#
+# I modified it because I found the battery numbers returned by acpi were not
+# stable and sometimes my battery switched numbers, so the percentage of
+# another "phantom" battery was shown. It seems like using upower fixes this.
 #
 # Licensed under the terms of the GNU GPL v3, or any later version.
 #
-# This script is meant to use with i3blocks. It parses the output of the "acpi"
-# command (often provided by a package of the same name) to read the status of
-# the battery, and eventually its remaining time (to full charge or discharge).
+# This script is meant to use with i3blocks. It parses the output of the
+# "upower" command to read the status of the battery, and eventually its
+# remaining time (to full charge or discharge).
 #
 # The color will gradually change for a percentage below 85%, and the urgency
 # (exit code 33) is set if there is less that 5% remaining.
@@ -18,7 +25,7 @@ use strict;
 use warnings;
 use utf8;
 
-my $acpi;
+my $upower_result;
 my $status;
 my $percent;
 my $ac_adapt;
@@ -27,72 +34,59 @@ my $short_text;
 my $bat_number = $ENV{BAT_NUMBER} || 0;
 my $label = $ENV{LABEL} || "";
 
-# read the first line of the "acpi" command output
-open (ACPI, "acpi -b 2>/dev/null| grep 'Battery $bat_number' |") or die;
-$acpi = <ACPI>;
-close(ACPI);
+$upower_result = `upower --show-info "/org/freedesktop/UPower/devices/battery_BAT$bat_number"`;
 
 # fail on unexpected output
-if (not defined($acpi)) {
-    # don't print anything to stderr if there is no battery
-    exit(0);
-}
-elsif ($acpi !~ /: ([\w\s]+), (\d+)%/) {
-	die "$acpi\n";
+if (not defined($upower_result)) {
+  # don't print anything to stderr if there is no battery
+  exit(0);
 }
 
+if ($upower_result !~ /^\s*state:\s*([\w\s]+)$/m) {
+  die("Can't read state")
+}
 $status = $1;
-$percent = $2;
+
+if ($upower_result !~ /^\s*percentage:\s*(\d+)%$/m) {
+  die("Can't read percentage")
+}
+$percent = $1;
 $full_text = "$label";
 
-if ($status eq 'Discharging') {
-	$full_text .= '⚡';
-} elsif ($status eq 'Charging') {
-	$full_text .= '🔌';
-} elsif ($status eq 'Unknown') {
-	open (AC_ADAPTER, "acpi -a |") or die;
-	$ac_adapt = <AC_ADAPTER>;
-	close(AC_ADAPTER);
-
-	if ($ac_adapt =~ /: ([\w-]+)/) {
-		$ac_adapt = $1;
-
-		if ($ac_adapt eq 'on-line') {
-			$full_text .= '🔌';
-		} elsif ($ac_adapt eq 'off-line') {
-			$full_text .= '⚡';
-		}
-	}
+if ($status eq 'discharging') {
+  $full_text .= '⚡';
+} elsif ($status eq 'charging') {
+  $full_text .= '🔌';
 }
 
 $full_text .= "$percent%";
 
 $short_text = $full_text;
 
-if ($acpi =~ /(\d\d:\d\d):/) {
-	$full_text .= " ($1)";
+# retrieve time
+if ($upower_result =~ /^\s*time to (?:empty|full):\s*(.+)$/m) {
+  $full_text .= " ($1)";
 }
 
 # print text
 print "$full_text\n";
 print "$short_text\n";
 
-# consider color and urgent flag only on discharge
 if ($status eq 'Discharging') {
+  if ($percent < 20) {
+    print "#FF0000\n";
+  } elsif ($percent < 40) {
+    print "#FFAE00\n";
+  } elsif ($percent < 60) {
+    print "#FFF600\n";
+  } elsif ($percent < 85) {
+    print "#A8FF00\n";
+  }
 
-	if ($percent < 20) {
-		print "#FF0000\n";
-	} elsif ($percent < 40) {
-		print "#FFAE00\n";
-	} elsif ($percent < 60) {
-		print "#FFF600\n";
-	} elsif ($percent < 85) {
-		print "#A8FF00\n";
-	}
-
-	if ($percent < 5) {
-		exit(33);
-	}
+  # set the urgent flag (red background)
+  if ($percent < 5) {
+    exit(33);
+  }
 }
 
 exit(0);
