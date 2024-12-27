@@ -1,0 +1,14 @@
+# In my Pixelbook there is a battery which doesn't report anything, since I see the error `Could not read /sys/class/power_supply/hid-0018:2D1F:5143.0001-battery/charge_now: No such file or directory`.
+# See https://github.com/electrickite/batsignal/issues/17
+-i
+
+-w
+15
+
+-c
+5
+
+-d
+3
+
+-p

@@ -14,6 +14,7 @@ Library
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}
+.config/batsignal
 .config/darkman
 .config/foot
 .config/i3blocks
