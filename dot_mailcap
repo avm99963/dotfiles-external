@@ -1,0 +1,1 @@
+image/*; (clear && img2sixel %s); needsterminal

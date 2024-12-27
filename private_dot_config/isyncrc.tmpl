@@ -1,0 +1,27 @@
+# Config file for isync's mbsync
+#
+# Heavily inspired by:
+# https://wiki.archlinux.org/index.php?title=Isync&oldid=823186#Configuring.
+
+IMAPAccount gmail
+Host imap.gmail.com
+# The User and PassCmd fields are not available in dotfiles-external, only in
+# the private repo, sorry.
+AuthMechs XOAUTH2
+TLSType IMAPS
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+SubFolders Verbatim
+Path ~/.mail/gmail/
+Inbox ~/.mail/gmail/Inbox
+
+Channel gmail-inbox
+Far :gmail-remote:
+Near :gmail-local:
+Patterns "INBOX" "[Gmail]/Drafts"
+Create Both
+Expunge Both
+SyncState *

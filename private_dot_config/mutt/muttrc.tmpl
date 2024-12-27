@@ -1,0 +1,25 @@
+set mbox_type = "Maildir"
+set folder = "~/.mail/gmail"
+set spoolfile = "+Inbox"
+set header_cache = "~/.cache/mutt/header_cache"
+set postponed = "+[Gmail]/Drafts"
+
+# The SMTP configuration is not available in dotfiles-external, only in the
+# private dotfiles repo.
+# If you want to know how I set this up, please don't hesitate to ask me
+# personally! :)
+
+bind index,pager B sidebar-toggle-visible
+set sidebar_divider_char = '│'
+set sidebar_format = '%B %<N?(%N)>%* %S'
+bind index,pager \Cp sidebar-prev
+bind index,pager \Cn sidebar-next
+bind index,pager \Co sidebar-open
+
+set sort = "threads"
+# Always quote the message when replying
+set include = "yes"
+
+mailboxes +Inbox +[Gmail]/Drafts
+# The alternates configuration is not available in dotfiles-external either,
+# sorry.
