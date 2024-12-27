@@ -94,6 +94,8 @@ return {
   },
   {
     "hrsh7th/nvim-cmp",
+    version = false,
+    event = "InsertEnter",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
@@ -203,10 +205,11 @@ return {
       cmp.setup.cmdline(':', {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
-          { name = 'path' }
+          { name = 'path', option = { trailing_slash = true, label_trailing_slash = true } }
         }, {
-          { name = 'cmdline' }
-        })
+          { name = 'cmdline', option = { treat_trailing_slash = false } }
+        }),
+        matching = { disallow_symbol_nonprefix_matching = false },
       })
     end,
   },
