@@ -1,6 +1,47 @@
 return {
   "editorconfig/editorconfig-vim",
   {
+    'stevearc/conform.nvim',
+    keys = {
+      {
+        '<space>f',
+        function ()
+          require'conform'.format({ async = true })
+        end,
+        mode = '',
+        desc = 'Format buffer',
+      },
+    },
+    opts = {
+      formatters_by_ft = {
+        typescript = {
+          'prettierd',
+          'prettier',
+          stop_after_first = true
+        },
+        typescriptreact = {
+          'prettierd',
+          'prettier',
+          stop_after_first = true
+        },
+        jjdescription = {
+          'commitmsgfmt',
+        },
+      },
+      default_format_opts = {
+        lsp_format = 'never',
+      },
+      format_on_save = {
+        timeout_ms = 500,
+      },
+      formatters = {
+        shfmt = {
+          prepend_args = { '-i', '2', '-ci' }
+        },
+      },
+    },
+  },
+  {
     "google/vim-codefmt",
     dependencies = {
       "google/vim-maktaba",
