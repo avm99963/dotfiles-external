@@ -47,8 +47,9 @@ return {
       --require'typescript-tools'.setup {
       --  capabilities = capabilities
       --}
-      lspconfig.ts_ls.setup {
-        capabilities = capabilities,
+      -- Replaced by typescript-tools (initialized as a separate plugin)
+      --lspconfig.ts_ls.setup {
+      --  capabilities = capabilities,
         -- NOTE: Enable this to troubleshoot tsserver
         --init_options = {
         --  tsserver = {
@@ -56,7 +57,7 @@ return {
         --    logVerbosity = 'verbose',
         --  },
         --},
-      }
+      --}
       lspconfig.jdtls.setup {
         capabilities = capabilities
       }
@@ -219,7 +220,9 @@ return {
     "pmizio/typescript-tools.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
+      "neovim/nvim-lspconfig",
     },
+    opts = {},
   },
   {
     "antosha417/nvim-lsp-file-operations",
