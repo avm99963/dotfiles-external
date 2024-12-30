@@ -27,6 +27,9 @@ return {
         jjdescription = {
           'commitmsgfmt',
         },
+        terraform = {
+          lsp_format = "prefer",
+        },
       },
       default_format_opts = {
         lsp_format = 'never',
