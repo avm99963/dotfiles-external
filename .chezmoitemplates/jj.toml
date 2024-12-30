@@ -14,6 +14,18 @@ diff-editor = ":builtin"
 #diff-editor = "vimdirdiff"
 #diff-editor = "meld-3"
 
+[templates]
+# Based on https://github.com/jj-vcs/jj/blob/5dd64ae978a20851151cddfe6b6421d929e70687/cli/src/config/templates.toml#L25-L32
+file_annotate = '''
+separate(" ",
+  commit.change_id().shortest(8),
+  commit.commit_id().shortest(8),
+  pad_end(12, truncate_end(12, commit.author().name())),
+  commit_timestamp(commit).local().format('%Y-%m-%d %H:%M:%S'),
+  pad_start(4, line_number),
+) ++ ": " ++ content
+'''
+
 [aliases]
 signoff = ["--config-toml=ui.editor='{{ .chezmoi.config.destDir }}/.jj-signoff.bash'", "commit"]
 so = ["--config-toml=ui.editor='{{ .chezmoi.config.destDir }}/.jj-signoff.bash'", "describe"]
