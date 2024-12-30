@@ -4,10 +4,17 @@ return {
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-telescope/telescope-ui-select.nvim",
-      "nvim-lua/plenary.nvim", 
+      "nvim-lua/plenary.nvim",
+      {
+        "nvim-telescope/telescope-live-grep-args.nvim" ,
+        -- This will not install any breaking changes.
+        -- For major updates, this must be adjusted manually.
+        version = "^1.0.0",
+      },
     },
     config = function()
-      require('telescope').setup {
+      local telescope = require('telescope')
+      telescope.setup {
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown{},
@@ -28,7 +35,8 @@ return {
           },
         },
       }
-      require('telescope').load_extension('ui-select')
+      telescope.load_extension('ui-select')
+      telescope.load_extension("live_grep_args")
 
       local builtin = require'telescope.builtin'
       vim.keymap.set('n', 'gd', builtin.lsp_definitions, opts)
