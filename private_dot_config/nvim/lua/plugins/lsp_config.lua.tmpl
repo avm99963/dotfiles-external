@@ -220,6 +220,25 @@ return {
         })
       end
 
+      cmp.setup.filetype('markdown', {
+        sources = cmp.config.sources(
+          {
+            { name = "jira" },
+          }
+        ),
+        formatting = {
+          format = lspkind.cmp_format({
+            mode = 'symbol',
+            maxwidth = 100,
+            ellipsis_char = '…',
+            show_labelDetails = true,
+            symbol_map = {
+              Jira = "󰌃",
+            },
+          }),
+        },
+      })
+
       -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
       cmp.setup.cmdline({ '/', '?' }, {
         mapping = cmp.mapping.preset.cmdline(),
