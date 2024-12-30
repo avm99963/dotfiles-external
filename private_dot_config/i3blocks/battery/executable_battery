@@ -72,7 +72,7 @@ if ($upower_result =~ /^\s*time to (?:empty|full):\s*(.+)$/m) {
 print "$full_text\n";
 print "$short_text\n";
 
-if ($status eq 'Discharging') {
+if ($status eq 'discharging') {
   if ($percent < 20) {
     print "#FF0000\n";
   } elsif ($percent < 40) {
