@@ -388,6 +388,7 @@ for_window {
 {{- end }}
 {{ if eq .env "work" -}}
   [app_id="flameshot"] border pixel 0, floating enable, fullscreen enable global
+  [class="Slack"] move window to workspace 9
 {{- end }}
 
   [title=".* is sharing your screen"] move window to scratchpad
