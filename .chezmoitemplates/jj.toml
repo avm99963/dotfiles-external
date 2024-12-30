@@ -4,8 +4,9 @@ email = {{ .git.email | quote }}
 
 {{- if eq .env "work"}}
 [git]
-push-bookmark-prefix="feature/adria-vilanova-push-"
+push-bookmark-prefix = "feature/adria-vilanova-push-"
 {{- end}}
+private-commits = "description(glob:'DO NOT UPLOAD:*') | description(glob:'DO NOT SUBMIT:*') | description(glob:'PRIVATE:*')"
 
 [ui]
 default-command = "log"
