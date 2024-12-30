@@ -40,6 +40,7 @@ return {
           custom = {
             "^\\.git$",
             "^\\.jj",
+            "^node_modules",
           },
           git_ignored = true,
           exclude = {
