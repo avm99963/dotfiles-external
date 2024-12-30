@@ -87,12 +87,15 @@ return {
       require'copilot_cmp'.setup()
     end
   },
+{{if eq .env "work" -}}
   {
     "lttr/cmp-jira",
+    dir = "~/gitrepos/third_party/cmp-jira",
     config = function ()
       require'cmp_jira'.setup()
     end
   },
+{{- end}}
   {
     "hrsh7th/nvim-cmp",
     version = false,
@@ -105,7 +108,9 @@ return {
       --"quangnguyen30192/cmp-nvim-ultisnips",
       "zbirenbaum/copilot-cmp",
       "onsails/lspkind.nvim",
+{{if eq .env "work" -}}
       "lttr/cmp-jira",
+{{- end}}
     },
     config = function()
       -- @source: https://github.com/hrsh7th/nvim-cmp/?tab=readme-ov-file#recommended-configuration
@@ -195,9 +200,11 @@ return {
       for i, fileType in ipairs({'gitcommit', 'jjdescription'}) do
         cmp.setup.filetype(fileType, {
           sources = cmp.config.sources(
+{{if eq .env "work" -}}
             {
               { name = "jira" },
             },
+{{- end}}
             {
               { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
             },
@@ -220,6 +227,7 @@ return {
         })
       end
 
+{{if eq .env "work" -}}
       cmp.setup.filetype('markdown', {
         sources = cmp.config.sources(
           {
@@ -238,6 +246,7 @@ return {
           }),
         },
       })
+{{- end}}
 
       -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
       cmp.setup.cmdline({ '/', '?' }, {
