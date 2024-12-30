@@ -89,3 +89,7 @@ label(if(current_operation, "current_operation"),
 [revset-aliases]
 "non-pushed" = "remote_bookmarks().. & mine()"
 "non-uploaded" = "non-pushed"
+
+[fix.tools.prettier]
+command = ["npx", "prettier", "--stdin-filepath=$path"]
+patterns = ["glob:'**/*.tsx'", "glob:'**/*.ts'", "glob:'**/*.jsx'", "glob:'**/*.js'", "glob:'**/*.css'", "glob:'**/*.scss'", "glob:'**/*.sass'", "glob:'**/*.html'"]
