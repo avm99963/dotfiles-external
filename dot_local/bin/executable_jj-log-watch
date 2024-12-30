@@ -1,0 +1,2 @@
+#!/bin/bash
+watch --color --no-title --interval 2 'jj --ignore-working-copy --color always log'

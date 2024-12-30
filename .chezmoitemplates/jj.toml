@@ -33,6 +33,7 @@ l = ["log"]
 ll = ["log", "--template", "full"]
 lll = ["log", "--template", "fuller"]
 opt = ["op", "log", "--template", "op_log_with_full_time"]
+w = ["util", "exec", "--", "jj-log-watch"]
 
 [template-aliases]
 # From https://sourcegraph.com/github.com/martinvonz/jj@0a39cfdbe25977132bcbb669d81124542821cfdc/-/blob/cli/src/config/templates.toml
