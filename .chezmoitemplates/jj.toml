@@ -91,6 +91,22 @@ label(if(current_operation, "current_operation"),
 'format_full_time_range(time_range)' = '''
   format_timestamp(time_range.start()) ++ label("time", ", lasted ") ++ time_range.duration()'''
 
+# From https://pratt.im/notes/jj-go-gerrit.html
+# 6a6a636c is hex("jjcl")
+gerrit_draft_commit_description = '''
+concat(
+  description,
+  if(
+    !description.contains("Change-Id: I"),
+    "\n\n" ++ "Change-Id: I6a6a636c" ++ change_id.normal_hex() ++ "\n",
+  ),
+  surround(
+    "\nJJ: This commit contains the following changes:\n", "",
+    indent("JJ:     ", diff.summary()),
+  ),
+)
+'''
+
 [revset-aliases]
 "non-pushed" = "remote_bookmarks().. & mine()"
 "non-uploaded" = "non-pushed"
