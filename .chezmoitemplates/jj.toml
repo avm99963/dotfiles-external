@@ -10,6 +10,7 @@ private-commits = "description(glob:'DO NOT UPLOAD:*') | description(glob:'DO NO
 
 [ui]
 default-command = "log"
+diff.tool = "difftastic"
 diff-editor = ":builtin"
 #diff-editor = "vimdirdiff"
 #diff-editor = "meld-3"
@@ -25,6 +26,10 @@ separate(" ",
   pad_start(4, line_number),
 ) ++ ": " ++ content
 '''
+
+[merge-tools.difftastic]
+program = "difft"
+diff-args = ["--color=always", "$left", "$right"]
 
 [aliases]
 signoff = ["--config-toml=ui.editor='{{ .chezmoi.config.destDir }}/.jj-signoff.bash'", "commit"]
