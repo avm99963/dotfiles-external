@@ -25,3 +25,16 @@ Patterns "INBOX" "[Gmail]/Drafts"
 Create Both
 Expunge Both
 SyncState *
+
+Channel gmail-sent
+Far :gmail-remote:
+Near :gmail-local:
+Patterns "[Gmail]/Sent Mail"
+Create Both
+Expunge Both
+SyncState *
+MaxMessages 100
+
+Group gmail
+Channel gmail-inbox
+Channel gmail-sent
