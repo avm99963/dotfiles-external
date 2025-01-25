@@ -1,1 +1,2 @@
 image/*; (clear && img2sixel %s); needsterminal
+application/pdf; zathura %s;
