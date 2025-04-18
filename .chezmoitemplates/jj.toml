@@ -92,6 +92,7 @@ label(if(current_operation, "current_operation"),
   format_timestamp(time_range.start()) ++ label("time", ", lasted ") ++ time_range.duration()'''
 
 # From https://pratt.im/notes/jj-go-gerrit.html
+# Use in your repo by running |jj config set --repo templates.draft_commit_description gerrit_draft_commit_description|
 # 6a6a636c is hex("jjcl")
 gerrit_draft_commit_description = '''
 concat(
