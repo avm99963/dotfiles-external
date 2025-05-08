@@ -27,6 +27,19 @@ separate(" ",
 ) ++ ": " ++ content
 '''
 
+# Based on https://github.com/jj-vcs/jj/blob/v0.29.0/docs/config.md#default-description
+draft_commit_description = '''
+concat(
+  coalesce(description, default_commit_description, "\n"),
+  surround(
+    "\nJJ: This commit contains the following changes:\n", "",
+    indent("JJ:     ", diff.summary()),
+  ),
+  "\nJJ: ignore-rest\n",
+  diff.git(),
+)
+'''
+
 [merge-tools.difftastic]
 program = "difft"
 diff-args = ["--color=always", "$left", "$right"]
