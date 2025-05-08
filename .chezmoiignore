@@ -10,7 +10,6 @@ roles
 
 {{ if ne .chezmoi.os "darwin" }}
 .gitignore_global
-Library
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}
@@ -18,7 +17,6 @@ Library
 .config/darkman
 .config/foot
 .config/i3blocks
-.config/jj
 .config/rofi
 .config/sway
 .config/swaylock
