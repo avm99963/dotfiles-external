@@ -1,0 +1,3 @@
+#!/bin/sh
+jj config unset --repo templates.draft_commit_description
+jj config set --repo templates.commit_trailers gerrit_commit_trailers

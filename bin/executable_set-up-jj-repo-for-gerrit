@@ -1,0 +1,2 @@
+#!/bin/sh
+jj config set --repo templates.commit_trailers gerrit_commit_trailers
