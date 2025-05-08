@@ -64,6 +64,9 @@ return {
       lspconfig.terraformls.setup {
         capabilities = capabilities
       }
+      lspconfig.psalm.setup {
+        capabilities = capabilities
+      }
 
       if not configs.protobuf_pls then
         configs.protobuf_pls = {
