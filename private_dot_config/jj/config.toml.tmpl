@@ -91,9 +91,13 @@ label(if(current_operation, "current_operation"),
 'format_full_time_range(time_range)' = '''
   format_timestamp(time_range.start()) ++ label("time", ", lasted ") ++ time_range.duration()'''
 
-# From https://pratt.im/notes/jj-go-gerrit.html
-# Use in your repo by running |jj config set --repo templates.draft_commit_description gerrit_draft_commit_description|
-# 6a6a636c is hex("jjcl")
+# From https://github.com/jj-vcs/jj/blob/v0.29.0/docs/config.md#commit-trailers
+# Use in your repo by running
+# |jj config set --repo templates.commit_trailers gerrit_commit_trailers|
+gerrit_commit_trailers = '''
+if(!trailers.contains_key("Change-Id"), format_gerrit_change_id_trailer(self))
+'''
+
 gerrit_draft_commit_description = '''
 concat(
   description,
@@ -101,6 +105,10 @@ concat(
     !description.contains("Change-Id: I"),
     "\n\n" ++ "Change-Id: I6a6a636c" ++ change_id.normal_hex() ++ "\n",
   ),
+  "\nJJ: WARNING: Using gerrit_draft_commit_description is deprecated!",
+  "\nJJ: Please update your repo by running the following commands:",
+  "\nJJ:   jj config unset --repo templates.draft_commit_description",
+  "\nJJ:   jj config set --repo templates.commit_trailers gerrit_commit_trailers",
   surround(
     "\nJJ: This commit contains the following changes:\n", "",
     indent("JJ:     ", diff.summary()),
