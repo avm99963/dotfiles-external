@@ -7,5 +7,9 @@ return {
   "gburca/vim-logcat",
   "kelwin/vim-smali",
   "jonsmithers/vim-html-template-literals",
-  "https://gerrit.avm99963.com/vim/jjdescription",
+  {
+    name = "jjdescription",
+    url = "https://gerrit.avm99963.com/vim/jjdescription",
+    dev = true,
+  },
 }
