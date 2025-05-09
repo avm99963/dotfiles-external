@@ -67,6 +67,9 @@ return {
       lspconfig.psalm.setup {
         capabilities = capabilities
       }
+      lspconfig.gopls.setup {
+        capabilities = capabilities
+      }
 
       if not configs.protobuf_pls then
         configs.protobuf_pls = {
