@@ -1,0 +1,101 @@
+#!/bin/bash
+
+# Initially generated in https://gemini.google.com/app/71b75b5f9275df4e, and
+# adapted to my needs.
+
+# A script to visually compare two PDF files pixel by pixel.
+#
+# Dependencies:
+# - poppler-utils (for pdftoppm)
+# - imagemagick (for compare)
+
+# --- Configuration ---
+RESOLUTION=200 # DPI for rendering the PDF pages. Higher is more accurate but slower.
+
+function print_usage() {
+  echo "Usage: $0 <file1.pdf> <file2.pdf>"
+}
+
+function check_deps() {
+  for cmd in pdftoppm compare; do
+    if ! command -v "$cmd" &> /dev/null; then
+      echo "Error: Required command '$cmd' is not installed."
+      echo "On Debian/Ubuntu, install with: sudo apt-get install poppler-utils imagemagick"
+      exit 1
+    fi
+  done
+}
+
+if [ "$#" -ne 2 ]; then
+  print_usage
+  exit 1
+fi
+
+PDF1="$1"
+PDF2="$2"
+
+if [ ! -f "$PDF1" ]; then
+  echo "Error: File not found: $PDF1"
+  exit 1
+fi
+if [ ! -f "$PDF2" ]; then
+  echo "Error: File not found: $PDF2"
+  exit 1
+fi
+
+check_deps
+
+TMPDIR1=$(mktemp -d)
+TMPDIR2=$(mktemp -d)
+
+# Ensure temporary directories are cleaned up on exit
+trap 'rm -rf "$TMPDIR1" "$TMPDIR2"' EXIT
+
+echo "Converting PDFs to images (at ${RESOLUTION} DPI)..."
+
+# Convert PDFs to a sequence of PNG images
+pdftoppm -png -r "$RESOLUTION" "$PDF1" "${TMPDIR1}/page"
+pdftoppm -png -r "$RESOLUTION" "$PDF2" "${TMPDIR2}/page"
+
+echo "Comparing images..."
+
+NUM_PAGES1=$(find "$TMPDIR1" -type f | wc -l)
+NUM_PAGES2=$(find "$TMPDIR2" -type f | wc -l)
+
+if [ "$NUM_PAGES1" -ne "$NUM_PAGES2" ]; then
+  echo "❌ PDFs are visually DIFFERENT."
+  echo "Reason: Number of pages does not match ($NUM_PAGES1 vs $NUM_PAGES2)."
+  exit 1
+fi
+
+for i in $(seq 1 "$NUM_PAGES1"); do
+  # Pad the page number for filename matching (e.g., page-01, page-02)
+  PAGE_NUM=$(printf "%0*d" ${#NUM_PAGES1} "$i")
+  
+  IMG1="${TMPDIR1}/page-${PAGE_NUM}.png"
+  # Handle cases where pdftoppm might use a different padding
+  if [ ! -f "$IMG1" ]; then
+    IMG1="${TMPDIR1}/page-$(printf "%d" "$i").png"
+  fi
+
+  IMG2="${TMPDIR2}/page-${PAGE_NUM}.png"
+  if [ ! -f "$IMG2" ]; then
+    IMG2="${TMPDIR2}/page-$(printf "%d" "$i").png"
+  fi
+
+  # The 'compare' command returns 0 if images are identical, 1 if they differ.
+  # We create a diff image only if a difference is found.
+  if ! compare -metric AE -fuzz 1% "$IMG1" "$IMG2" null: 2>/dev/null; then
+    echo "❌ PDFs are visually DIFFERENT."
+    echo "Difference found on page $i."
+    
+    # Generate a visual diff image
+    TMPDIR_RESULT=$(mktemp -d)
+    compare "$IMG1" "$IMG2" "$TMPDIR_RESULT/diff.png"
+    echo "A '$TMPDIR_RESULT/diff.png' file has been created highlighting the changes."
+    exit 1
+  fi
+done
+
+echo "✅ PDFs are visually IDENTICAL."
+exit 0
