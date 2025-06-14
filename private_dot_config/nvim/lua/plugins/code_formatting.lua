@@ -35,7 +35,7 @@ return {
         lsp_format = 'never',
       },
       format_on_save = {
-        timeout_ms = 500,
+        timeout_ms = 1500,
       },
       formatters = {
         shfmt = {
