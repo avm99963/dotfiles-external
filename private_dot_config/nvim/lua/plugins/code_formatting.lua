@@ -30,6 +30,9 @@ return {
         terraform = {
           lsp_format = "prefer",
         },
+        kotlin = {
+          lsp_format = "prefer",
+        },
       },
       default_format_opts = {
         lsp_format = 'never',
