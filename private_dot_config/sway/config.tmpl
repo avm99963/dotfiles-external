@@ -301,6 +301,9 @@ workspace 9 output $P12GRAN303Screen $auxScreen $internalScreen
     bindsym XF86LaunchA exec $flameshotGuiCmd
     bindsym $mod+P exec $flameshotGuiCmd
 
+# Pick color
+    bindsym $mod+o exec grim -g "$(slurp -p)" -t ppm - | convert - -format "%[pixel:p{0,0}]" txt:- | tail -n 1 | cut -d " " -f 4 | wl-copy
+
 #
 # Resizing containers:
 #
