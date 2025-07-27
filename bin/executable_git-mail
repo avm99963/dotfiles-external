@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# This script allows me to send the current changes in HEAD for review to a
+# Gerrit instance.
+#
+# It automatically selects a sensible remote to send the changes to, and pushes
+# them to the default Git branch, which is my typical workflow for sending CLs
+# to Gerrit.
+
+function getSensibleRemote()
+{
+  readarray -t remotes < <(git remote)
+
+  for remote in "${remotes[@]}"; do
+    if [[ "$remote" == "origin" || "$remote" == "gerrit" ]]; then
+      echo "$remote"
+      return 0
+    fi
+  done
+
+  echo "$0: error: this repo doesn't have any remotes set." >&2
+  exit 1
+}
+
+REMOTE=$(getSensibleRemote)
+REMOTE_BRANCH=$(git remote show "$REMOTE" | sed -n '/HEAD branch/s/.*: //p')
+git push "$REMOTE" "HEAD:refs/for/$REMOTE_BRANCH"
