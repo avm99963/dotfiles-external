@@ -23,7 +23,7 @@ bind -n M-Down select-pane -D
 
 set -sg escape-time 10
 
-{{if and .chezmoi.os (eq .chezmoi.os "linux") -}}
+{{- if and .chezmoi.os (eq .chezmoi.os "linux") }}
 if-shell 'test "$XDG_SESSION_TYPE" = "wayland"' '
   set-option -s copy-command 'wl-copy'
 ' '
@@ -42,7 +42,9 @@ set -g @plugin 'tmux-plugins/tmux-resurrect'
 set -g @plugin 'tmux-plugins/tmux-continuum'
 
 set -g @resurrect-capture-pane-contents 'on'
+{{- if eq .env "work" }}
 set -g @continuum-restore 'on'
+{{- end }}
 
 set -g @dracula-show-fahrenheit false
 set -g @dracula-show-powerline true
