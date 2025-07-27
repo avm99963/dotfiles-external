@@ -9,14 +9,12 @@
 
 function getSensibleRemote()
 {
-  readarray -t remotes < <(git remote)
-
-  for remote in "${remotes[@]}"; do
+  while IFS=$'\n' read -r remote; do
     if [[ "$remote" == "origin" || "$remote" == "gerrit" ]]; then
       echo "$remote"
       return 0
     fi
-  done
+  done < <(git remote)
 
   echo "$0: error: this repo doesn't have any remotes set." >&2
   exit 1
