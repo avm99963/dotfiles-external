@@ -40,6 +40,9 @@ def export_workflow(name, description, mode, authoring_value, is_test):
           # hosts I connect to, which I don't want to be public).
           "private_dot_ssh/**",
 
+          # Private command to obtain a Gmail token for XOAUTH2 authentication.
+          "bin/executable_get-gmail-xoauth2-token",
+
           # .gitreview file only used for the private/dotfiles repo for the
           # `git review` tool (https://docs.opendev.org/opendev/git-review/).
           ".gitreview",
