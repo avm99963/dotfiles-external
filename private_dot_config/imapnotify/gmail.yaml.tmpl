@@ -1,0 +1,24 @@
+configurations:
+  -
+    host: imap.gmail.com
+    port: 993
+    tls: true
+    xoAuth2: true
+    # The username and passwordCMD fields are not available in
+    # dotfiles-external, only in the private repo, sorry.
+    boxes:
+      -
+          mailbox: "INBOX"
+          onNewMail: "mbsync gmail-inbox"
+          onChangedMail: "mbsync gmail-inbox"
+          onDeletedMail: "mbsync gmail-inbox"
+      -
+          mailbox: "[Gmail]/Drafts"
+          onNewMail: "mbsync gmail-inbox"
+          onChangedMail: "mbsync gmail-inbox"
+          onDeletedMail: "mbsync gmail-inbox"
+      -
+          mailbox: "[Gmail]/Sent Mail"
+          onNewMail: "mbsync gmail-sent"
+          onChangedMail: "mbsync gmail-sent"
+          onDeletedMail: "mbsync gmail-sent"
