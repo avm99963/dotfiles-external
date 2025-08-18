@@ -27,3 +27,4 @@ mailboxes +Inbox +[Gmail]/Drafts "+[Gmail]/Sent Mail"
 # sorry.
 
 set new_mail_command="notify-send 'New Email' '%n new messages, %u unread.' &"
+macro index,pager O "<shell-escape>mbsync -a<enter>" "run mbsync to sync all mail"
