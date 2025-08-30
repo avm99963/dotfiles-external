@@ -123,7 +123,7 @@ function print_block {
     if [[ $ACTIVE = "" ]] ; then
         ACTIVE="$(pactl list sinks | grep "$(pactl get-default-sink)" -B4 -A55)"
     fi
-    ACTIVE="$(echo "$ACTIVE" | grep "Name:\|Volume: \(front-left\|mono\)\|Mute:\|api.alsa.pcm.card = \|node.nick = ")"
+    ACTIVE="$(echo "$ACTIVE" | grep "Name:\|Volume: \(front-left\|mono\|aux0\)\|Mute:\|api.alsa.pcm.card = \|node.nick = ")"
     for Name in NAME MUTED VOL INDEX NICK; do
         read $Name
     done < <(echo "$ACTIVE")
