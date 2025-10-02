@@ -404,6 +404,7 @@ for_window {
 
   [app_id="org.gnome.Calculator"] floating enable
   [app_id="it.mijorus.smile"] floating enable
+  [class="scrcpy"] floating enable
   # See https://wiki.archlinux.org/index.php?title=Flameshot&oldid=813985#Flameshot_does_not_work_on_all_monitors_of_a_multi-monitor_setup_in_Sway
 {{ if eq .chezmoi.hostname "pixelbook" -}}
   [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
