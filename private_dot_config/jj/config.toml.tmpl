@@ -46,6 +46,8 @@ diff-args = ["--color=always", "$left", "$right"]
 
 [aliases]
 gf = ["git", "fetch"]
+m = ["mail"]
+mail = ["gerrit", "upload", "--revisions", "mutable()::@-"]
 signoff = ["--config-toml=ui.editor='{{ .chezmoi.config.destDir }}/.jj-signoff.bash'", "commit"]
 l = ["log"]
 ll = ["log", "--template", "full"]
