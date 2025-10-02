@@ -14,6 +14,9 @@ return {
     },
     opts = {
       formatters_by_ft = {
+        bzl = {
+          'buildifier',
+        },
         typescript = {
           'prettierd',
           'prettier',
@@ -31,6 +34,9 @@ return {
           lsp_format = "prefer",
         },
         kotlin = {
+          lsp_format = "prefer",
+        },
+        go = {
           lsp_format = "prefer",
         },
       },
