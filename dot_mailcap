@@ -1,2 +1,3 @@
 image/*; (clear && img2sixel %s); needsterminal
 application/pdf; zathura %s;
+text/html; w3m -s -T text/html -I %{charset} -o display_link_number=1 %s; nametemplate=%s.html; copiousoutput; x-neomutt-nowrap;
