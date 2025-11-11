@@ -39,6 +39,7 @@ set $internalScreen "Chimei Innolux Corporation 0x143F Unknown"
 set $internalKeyboard "1:1:AT_Translated_Set_2_keyboard"
 {{- end }}
 
+set $secondaryScreen "Samsung Electric Company LF24T35 H4ZNC06195"
 set $auxScreen "LG Electronics LG Ultra HD 0x0000D4DC"
 set $portableScreen "GWD ARZOPA 000000000000"
 set $P12GRAN304Screen "Dell Inc. DELL P2214H 29C293AA1DRL"
@@ -67,6 +68,11 @@ output $internalScreen {
 output $auxScreen {
   mode 1920x1080@60.000Hz
   pos 1372 0
+}
+
+output $secondaryScreen {
+  mode 1920x1080@60.000Hz
+  pos -1920 0
 }
 
 output $portableScreen {
