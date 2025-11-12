@@ -29,4 +29,4 @@ mailboxes +Inbox +[Gmail]/Drafts "+[Gmail]/Sent Mail"
 
 set new_mail_command="notify-send 'New Email' '%n new messages, %u unread.' &"
 set wait_key = no
-macro index,pager O "<shell-escape>mbsync -a<enter>" "run mbsync to sync all mail"
+macro index,pager O "$y<shell-escape>mbsync -a<enter>" "run mbsync to sync all mail"
