@@ -54,6 +54,8 @@ l = ["log"]
 ll = ["log", "--template", "full"]
 lll = ["log", "--template", "fuller"]
 opt = ["op", "log", "--template", "op_log_with_full_time"]
+s = ["show"]
+sc = ["show", "--tool=:color-words"]
 so = ["--config-toml=ui.editor='{{ .chezmoi.config.destDir }}/.jj-signoff.bash'", "describe"]
 w = ["util", "exec", "--", "jj-log-watch"]
 
@@ -132,6 +134,7 @@ concat(
 '''
 
 [revset-aliases]
+"desc(pattern)" = "description(pattern)"
 "non-pushed" = "remote_bookmarks().. & mine()"
 "non-uploaded" = "non-pushed"
 
