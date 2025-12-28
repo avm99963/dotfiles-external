@@ -34,16 +34,15 @@ return {
         end,
       })
 
-      local lspconfig = require('lspconfig')
       local configs = require('lspconfig.configs')
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      lspconfig.pylsp.setup {
+      vim.lsp.config('pylsp', {
         capabilities = capabilities
-      }
-      lspconfig.eslint.setup {
+      })
+      vim.lsp.config('eslint', {
         capabilities = capabilities
-      }
+      })
       --require'typescript-tools'.setup {
       --  capabilities = capabilities
       --}
@@ -58,18 +57,18 @@ return {
         --  },
         --},
       --}
-      lspconfig.jdtls.setup {
+      vim.lsp.config('jdtls', {
         capabilities = capabilities
-      }
-      lspconfig.terraformls.setup {
+      })
+      vim.lsp.config('terraformls', {
         capabilities = capabilities
-      }
-      lspconfig.psalm.setup {
+      })
+      vim.lsp.config('psalm', {
         capabilities = capabilities
-      }
-      lspconfig.gopls.setup {
+      })
+      vim.lsp.config('gopls', {
         capabilities = capabilities
-      }
+      })
 
       if not configs.protobuf_pls then
         configs.protobuf_pls = {
@@ -82,12 +81,12 @@ return {
           },
         }
       end
-      lspconfig.protobuf_pls.setup{
+      vim.lsp.config('protobuf_pls', {
         capabilities = capabilities
-      }
-      lspconfig.kotlin_language_server.setup{
+      })
+      vim.lsp.config('kotlin_language_server', {
         capabilities = capabilities
-      }
+      })
     end,
   },
   {
